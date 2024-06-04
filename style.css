@@ -236,6 +236,10 @@ canvas#canvas {
     transform: translateX(0);
   }
 
+  .top-bar:hover .arrow {
+    opacity: 0;
+  }
+
   .name {
     display: inline;
     cursor: pointer;
