@@ -131,6 +131,7 @@ function storeDrawn(x, y, size, color, erase) {
     erase,
   };
   drawnArray.push(line);
+  console.log(line);
 }
 
 // Get Mouse Position
@@ -177,6 +178,7 @@ canvas.addEventListener("mousemove", mousemove);
 
 // Mouse Up
 function mouseup() {
+  if (!isEmptyObject) storeDrawn(undefined);
   isMouseDown = false;
 }
 canvas.addEventListener("mouseup", mouseup);
