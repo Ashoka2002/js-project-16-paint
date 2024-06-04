@@ -1,3 +1,4 @@
+const topBar = document.getElementById("top-bar");
 const activeToolEl = document.getElementById("active-tool");
 const brushColorBtn = document.getElementById("brush-color");
 const brushIcon = document.getElementById("brush");
@@ -10,8 +11,10 @@ const saveStorageBtn = document.getElementById("save-storage");
 const loadStorageBtn = document.getElementById("load-storage");
 const clearStorageBtn = document.getElementById("clear-storage");
 const downloadBtn = document.getElementById("download");
+const isMobile = window.matchMedia("(max-width: 830px)").matches;
 const { body } = document;
-
+// Mobile sideBar
+// let isMobileNavActive = false;
 // Global Variables
 const canvas = document.createElement("canvas");
 canvas.id = "canvas";
@@ -24,6 +27,17 @@ let isEraser = false;
 let isMouseDown = false;
 let drawnArray = [];
 let isEmptyObject = false;
+
+// Mobile SideBar Logic
+// function toggleMobileSideBar() {
+//   if (!isMobileNavActive) {
+//     isMobileNavActive = true;
+//     topBar.style.transform = "translateX(0)";
+//   } else {
+//     isMobileNavActive = false;
+//     topBar.style.transform = "translateX(-200px)";
+//   }
+// }
 
 // Formatting Brush Size
 function displayBrushSize() {
@@ -52,8 +66,8 @@ bucketColorBtn.addEventListener("change", () => {
 // Eraser
 eraser.addEventListener("click", () => {
   isEraser = true;
-  brushIcon.style.color = "white";
-  eraser.style.color = "black";
+  // brushIcon.style.color = "white";
+  // eraser.style.color = "black";
   activeToolEl.textContent = "Eraser";
   currentColor = bucketColor;
   currentSize = 50;
@@ -63,8 +77,8 @@ eraser.addEventListener("click", () => {
 function switchToBrush() {
   isEraser = false;
   activeToolEl.textContent = "Brush";
-  brushIcon.style.color = "black";
-  eraser.style.color = "white";
+  // brushIcon.style.color = "black";
+  // eraser.style.color = "white";
   currentColor = `#${brushColorBtn.value}`;
   currentSize = 10;
   brushSlider.value = 10;
@@ -74,7 +88,7 @@ function switchToBrush() {
 // Create Canvas
 function createCanvas() {
   canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight - 50;
+  canvas.height = isMobile ? window.innerHeight : window.innerHeight - 50;
   context.fillStyle = bucketColor;
   context.fillRect(0, 0, canvas.width, canvas.height);
   body.appendChild(canvas);
@@ -116,7 +130,6 @@ function storeDrawn(x, y, size, color, erase) {
     color,
     erase,
   };
-  console.log(line);
   drawnArray.push(line);
 }
 
@@ -128,8 +141,12 @@ function getMousePosition(event) {
     y: event.clientY - boundaries.top,
   };
 }
+let touch;
 // Mouse Down
-canvas.addEventListener("mousedown", (event) => {
+function mousedown(event) {
+  if (event.touches) {
+    event = event.touches[0];
+  }
   isMouseDown = true;
   const currentPosition = getMousePosition(event);
   context.moveTo(currentPosition.x, currentPosition.y);
@@ -137,10 +154,14 @@ canvas.addEventListener("mousedown", (event) => {
   context.lineWidth = currentSize;
   context.lineCap = "round";
   context.strokeStyle = currentColor;
-});
+}
+canvas.addEventListener("mousedown", mousedown);
 
 // Mouse Move
-canvas.addEventListener("mousemove", (event) => {
+function mousemove(event) {
+  if (event.touches) {
+    event = event.touches[0];
+  }
   if (isMouseDown) {
     const currentPosition = getMousePosition(event);
     context.lineTo(currentPosition.x, currentPosition.y);
@@ -151,11 +172,14 @@ canvas.addEventListener("mousemove", (event) => {
     if (!isEmptyObject) storeDrawn(undefined);
     isEmptyObject = true;
   }
-});
+}
+canvas.addEventListener("mousemove", mousemove);
+
 // Mouse Up
-canvas.addEventListener("mouseup", () => {
+function mouseup() {
   isMouseDown = false;
-});
+}
+canvas.addEventListener("mouseup", mouseup);
 
 // Save to Local Storage
 saveStorageBtn.addEventListener("click", () => {
@@ -183,7 +207,7 @@ loadStorageBtn.addEventListener("click", () => {
 clearStorageBtn.addEventListener("click", () => {
   localStorage.removeItem("canvas");
   // Active Tool
-  activeToolEl.textContent = "Local Storage Cleared";
+  activeToolEl.textContent = "Storage Cleared";
   setTimeout(switchToBrush, 1500);
 });
 
@@ -203,3 +227,8 @@ brushIcon.addEventListener("click", switchToBrush);
 // On Load
 
 createCanvas();
+
+// Touch Screen Contols
+canvas.addEventListener("touchstart", mousedown);
+canvas.addEventListener("touchmove", mousemove);
+canvas.addEventListener("touchend", mouseup);

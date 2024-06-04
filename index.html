@@ -10,8 +10,10 @@
   </head>
   <body>
     <!-- Tool Bar -->
-    <div class="top-bar">
+    <div class="top-bar" id="top-bar">
       <!-- Active Tool -->
+      <!-- <div class="arrow" onclick="toggleMobileSideBar()"><</div> -->
+      <div class="arrow"><</div>
       <div class="active-tool">
         <span id="active-tool" title="Active Tool">Brush</span>
       </div>
@@ -28,36 +30,37 @@
         <input class="jscolor" value="FFFFFF" id="bucket-color" />
       </div>
       <!-- Eraser -->
-      <div class="tool">
-        <i class="fas fa-eraser" id="eraser" title="Eraser"></i>
+      <div class="tool" id="eraser">
+        <i class="fas fa-eraser" title="Eraser"></i>
+        <span class="name">Eraser</span>
       </div>
       <!-- Clear Canvas -->
-      <div class="tool">
-        <i class="fas fa-undo-alt" id="clear-canvas" title="Clear"></i>
+      <div class="tool" id="clear-canvas">
+        <i class="fas fa-undo-alt" title="Clear"></i>
+        <span class="name">Clear</span>
       </div>
       <!-- Save Local Storage -->
-      <div class="tool">
-        <i class="fas fa-download" id="save-storage" title="Save Local Storage"></i>
+      <div class="tool" id="save-storage">
+        <i class="fas fa-download" title="Save Local Storage"></i>
+        <span class="name">Save</span>
       </div>
       <!-- Load Local Storage -->
-      <div class="tool">
-        <i class="fas fa-upload" id="load-storage" title="Load Local Storage"></i>
+      <div class="tool" id="load-storage">
+        <i class="fas fa-upload" title="Load Local Storage"></i>
+        <span class="name">Get Saved</span>
       </div>
       <!-- Clear Local Storage -->
-      <div class="tool">
-        <i class="fas fa-trash-alt" id="clear-storage" title="Clear Local Storage"></i>
+      <div class="tool" id="clear-storage">
+        <i class="fas fa-trash-alt" title="Clear Local Storage"></i>
+        <span class="name">Delete Saved</span>
       </div>
       <!-- Download Image -->
       <div class="tool">
         <a id="download">
           <i class="far fa-save" title="Save Image File"></i>
+          <span class="name">Download</span>
         </a>
       </div>
-    </div>
-
-    <!-- Mobile Message -->
-    <div class="mobile-message">
-      <h2>Please use application on larger screen</h2>
     </div>
 
     <!-- Script -->
