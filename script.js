@@ -106,6 +106,7 @@ clearCanvasBtn.addEventListener("click", () => {
 
 // Draw what is stored in DrawnArray
 function restoreCanvas() {
+  createCanvas();
   for (let i = 1; i < drawnArray.length; i++) {
     context.beginPath();
     context.moveTo(drawnArray[i - 1].x, drawnArray[i - 1].y);
@@ -131,7 +132,6 @@ function storeDrawn(x, y, size, color, erase) {
     erase,
   };
   drawnArray.push(line);
-  console.log(line);
 }
 
 // Get Mouse Position
@@ -186,6 +186,7 @@ canvas.addEventListener("mouseup", mouseup);
 // Save to Local Storage
 saveStorageBtn.addEventListener("click", () => {
   localStorage.setItem("canvas", JSON.stringify(drawnArray));
+  localStorage.setItem("canvasBg", bucketColor);
   // Active Tool
   activeToolEl.textContent = "Canvas Saved";
   setTimeout(switchToBrush, 1500);
@@ -195,6 +196,7 @@ saveStorageBtn.addEventListener("click", () => {
 loadStorageBtn.addEventListener("click", () => {
   if (localStorage.canvas) {
     drawnArray = JSON.parse(localStorage.canvas);
+    bucketColor = localStorage.canvasBg;
     restoreCanvas();
     // Active Tool
     activeToolEl.textContent = "Canvas Loaded";
